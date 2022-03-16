@@ -47,52 +47,55 @@ time.sleep(12)
 pth=str(os.getcwd())
 
 pages=driver.find_elements_by_class_name('btn-cta')
-for page in pages:
-    os.chdir(pth)
-    page.click()
-    
-    time.sleep(17)
-    dirname=driver.current_url
-    dirname=dirname.split('/')[-1]
-    os.mkdir(str(os.getcwd())+'\\'+dirname)
-    os.chdir(str(os.getcwd())+'\\'+dirname)
-    while True:
+try:
+    for page in pages:
+        os.chdir(pth)
+        page.click()
+        
+        time.sleep(17)
+        dirname=driver.current_url
+        dirname=dirname.split('/')[-1]
+        os.mkdir(str(os.getcwd())+'\\'+dirname)
+        os.chdir(str(os.getcwd())+'\\'+dirname)
+        while True:
+            videos=driver.find_elements_by_class_name('ng-trigger-myInsertRemoveTrigger')
+            actions = ActionChains(driver)
+            actions.move_to_element(videos[-1])
+            actions.click(videos[-1])
+            actions.perform()
+            time.sleep(5)
+            videos1=driver.find_elements_by_class_name('ng-trigger-myInsertRemoveTrigger')
+            if len(videos1) == len(videos):
+                break
         videos=driver.find_elements_by_class_name('ng-trigger-myInsertRemoveTrigger')
-        actions = ActionChains(driver)
-        actions.move_to_element(videos[-1])
-        actions.click(videos[-1])
-        actions.perform()
-        time.sleep(5)
-        videos1=driver.find_elements_by_class_name('ng-trigger-myInsertRemoveTrigger')
-        if len(videos1) == len(videos):
-            break
-    videos=driver.find_elements_by_class_name('ng-trigger-myInsertRemoveTrigger')
-    print(len(videos))
-    for video in videos:
-        actions = ActionChains(driver)
-        actions.move_to_element(video)
-        actions.click(video)
-        actions.perform()
-        time.sleep(7)
-        wide=driver.find_element_by_tag_name('video').get_attribute("src")
+        print(len(videos))
+        for video in videos:
+            actions = ActionChains(driver)
+            actions.move_to_element(video)
+            actions.click(video)
+            actions.perform()
+            time.sleep(7)
+            wide=driver.find_element_by_tag_name('video').get_attribute("src")
 
-        column=driver.find_elements_by_class_name('dimension-column')
-        column[1].click()
-        time.sleep(8)
-        square=driver.find_element_by_tag_name('video').get_attribute("src")
-        column[2].click()
-        time.sleep(7)
-        vertical=driver.find_element_by_tag_name('video').get_attribute("src")
+            column=driver.find_elements_by_class_name('dimension-column')
+            column[1].click()
+            time.sleep(8)
+            square=driver.find_element_by_tag_name('video').get_attribute("src")
+            column[2].click()
+            time.sleep(7)
+            vertical=driver.find_element_by_tag_name('video').get_attribute("src")
 
-        foler_name=driver.find_element_by_class_name('template-details').text
-        print(str(os.getcwd())+'\\'+foler_name)
-        try:
+            foler_name=driver.find_element_by_class_name('template-details').text
+            print(str(os.getcwd())+'\\'+foler_name)
+            try:
 
-            os.mkdir(str(os.getcwd())+'\\'+foler_name)
-        except:
-            pass
-        localpth=str(os.getcwd())
-        l=[wide,square,vertical]
-        os.chdir(str(os.getcwd())+'\\'+foler_name)
-        download_video_series(l)
-        os.chdir(localpth)
+                os.mkdir(str(os.getcwd())+'\\'+foler_name)
+            except:
+                pass
+            localpth=str(os.getcwd())
+            l=[wide,square,vertical]
+            os.chdir(str(os.getcwd())+'\\'+foler_name)
+            download_video_series(l)
+            os.chdir(localpth)
+except:
+    input('error plz check and pass')
